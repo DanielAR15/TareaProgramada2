@@ -85,8 +85,8 @@ def demo_mochila():
     """Demostración del problema de la mochila."""
     console.print("\n\n[bold cyan]═══ PROBLEMA DE LA MOCHILA ═══[/bold cyan]\n")
     
-    peso = [10, 20, 30, 40]
-    beneficio = [60, 100, 120, 80]
+    peso = [0,10, 20, 30, 40]
+    beneficio = [0,60, 100, 120, 80]
     capacidad = 50
     
     # Mostrar datos
