@@ -85,8 +85,8 @@ def demo_mochila():
     """Demostración del problema de la mochila."""
     console.print("\n\n[bold cyan]═══ PROBLEMA DE LA MOCHILA ═══[/bold cyan]\n")
     
-    peso = [0,10, 20, 30, 40]
-    beneficio = [0,60, 100, 120, 80]
+    peso = [0, 10, 20, 30, 40]
+    beneficio = [0, 60, 100, 120, 80]
     capacidad = 50
     
     # Mostrar datos
@@ -107,7 +107,7 @@ def demo_mochila():
     console.print(tabla)
     console.print(f"\n[bold]Capacidad de la mochila:[/bold] {capacidad}")
     
-    problema = ProblemaMochila(peso, beneficio, capacidad, len(peso))
+    problema = ProblemaMochila(peso, beneficio, capacidad, len(peso)-1)
     
     # Probar métodos
     console.print("\n[bold yellow]1. Búsqueda Greedy:[/bold yellow]")
@@ -116,7 +116,7 @@ def demo_mochila():
     solucion = problema.busqueda_greedy()
     tiempo = timer.intervalo_tiempo()
     
-    seleccionados = [str(i) for i in range(1, len(peso) + 1) if solucion.mochila[i]]
+    seleccionados = [str(i) for i in range(1, len(peso)) if i in solucion.seleccionados]
     console.print(f"   Ítems seleccionados: {', '.join(seleccionados)}")
     console.print(f"   Beneficio: [green]{solucion.beneficio}[/green]")
     console.print(f"   Tiempo: {timer.formato_tiempo(tiempo)}")
@@ -126,12 +126,21 @@ def demo_mochila():
     solucion = problema.busqueda_exhaustiva_pura()
     tiempo = timer.intervalo_tiempo()
     
-    seleccionados = [str(i) for i in range(1, len(peso) + 1) if solucion.mochila[i]]
+    seleccionados = [str(i) for i in range(1, len(peso)) if i in solucion.seleccionados]
     console.print(f"   Ítems seleccionados: {', '.join(seleccionados)}")
     console.print(f"   Beneficio: [green]{solucion.beneficio}[/green]")
     console.print(f"   Soluciones exploradas: {solucion.soluciones_factibles}")
     console.print(f"   Tiempo: {timer.formato_tiempo(tiempo)}")
 
+    console.print("\n[bold yellow]3. Búsqueda por Ramificación y Acotamiento:[/bold yellow]")
+    timer.cargar_tiempo()
+    solucion = problema.busqueda_exhaustiva_ra()
+    tiempo = timer.intervalo_tiempo()
+
+    console.print(f"   Ítems seleccionados: {', '.join(map(str, solucion.seleccionados))}")
+    console.print(f"   Beneficio: [green]{solucion.beneficio}[/green]")
+    console.print(f"   Soluciones exploradas: {solucion.soluciones_factibles}")
+    console.print(f"   Tiempo: {timer.formato_tiempo(tiempo)}")
 
 def demo_vendedor():
     """Demostración del problema del vendedor viajero."""
@@ -181,6 +190,18 @@ def demo_vendedor():
     solucion = problema.busqueda_exhaustiva_pura()
     tiempo = timer.intervalo_tiempo()
     
+    camino = [solucion.camino[i] for i in range(1, 6) if solucion.camino[i]]
+    camino.append('a')
+    console.print(f"   Camino: {'-'.join(camino)}")
+    console.print(f"   Costo: [green]{solucion.costo}[/green]")
+    console.print(f"   Soluciones exploradas: {solucion.soluciones_factibles}")
+    console.print(f"   Tiempo: {timer.formato_tiempo(tiempo)}")
+
+    console.print("\n[bold yellow]3. Ramificación y Acotamiento:[/bold yellow]")
+    timer.cargar_tiempo()
+    solucion = problema.busqueda_exhaustiva_ra()
+    tiempo = timer.intervalo_tiempo()
+
     camino = [solucion.camino[i] for i in range(1, 6) if solucion.camino[i]]
     camino.append('a')
     console.print(f"   Camino: {'-'.join(camino)}")
