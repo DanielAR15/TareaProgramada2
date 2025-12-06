@@ -26,6 +26,12 @@ class ProblemaMochila:
     """
 
     def __init__(self, peso, beneficio, capacidad, n):
+
+        if peso[0] != 0:
+            peso = [0] + peso
+        if beneficio[0] != 0:
+            beneficio = [0] + beneficio
+
         self.peso = peso
         self.beneficio = beneficio
         self.capacidad = capacidad

@@ -435,24 +435,19 @@ def imprimir_solucion_mochila(solucion: SolucionMochila, tiempo: dict,
                               tamano: int, peso: List[int], beneficio: List[int]):
     """Imprime la solución del problema de la mochila."""
     console.clear()
-    
-    # Construir texto de la solución
-    items_seleccionados = []
-    peso_total = 0
-    for i in range(1, tamano + 1):
-        if solucion.mochila[i]:
-            items_seleccionados.append(str(i))
-            peso_total += peso[i - 1]
-    
-    contenido = f"Los ítemes seleccionados son: {', '.join(items_seleccionados) if items_seleccionados else 'Ninguno'}.\n\n"
+
+    items_seleccionados = [str(i) for i in solucion.seleccionados]
+
+    contenido = ""
+    contenido += f"Los ítemes seleccionados son: {', '.join(items_seleccionados) if items_seleccionados else 'Ninguno'}.\n\n"
     contenido += f"Con un beneficio total de {solucion.beneficio}.\n"
-    contenido += f"Peso total: {peso_total}.\n\n"
-    contenido += f"El tiempo transcurrido para encontrar la solución fue: "
-    contenido += f"{tiempo['horas']:02d}:{tiempo['minutos']:02d}:{tiempo['segundos']:02d},{tiempo['centesimas']:02d}."
-    
-    if solucion.soluciones_factibles > 0:
-        contenido += f"\n\nEl número de soluciones factibles fue {solucion.soluciones_factibles}."
-    
+    contenido += f"Peso total: {solucion.peso_total}.\n\n"
+
+    contenido += "El tiempo transcurrido para encontrar la solución fue: "
+    contenido += f"{tiempo['horas']:02d}:{tiempo['minutos']:02d}:{tiempo['segundos']:02d},{tiempo['centesimas']:02d}.\n\n"
+
+    contenido += f"El número de soluciones factibles fue {solucion.soluciones_factibles}."
+
     panel = Panel(
         contenido,
         title="[bold white]Resultado[/bold white]",
