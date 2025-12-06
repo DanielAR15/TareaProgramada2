@@ -10,13 +10,13 @@ class SolucionDistribucion:
     Representa la solución del Problema de Distribución de un Recurso.
 
     Atributos:
-        asignado: Lista que indica cuántas unidades se asignan a cada columna.
+        distribucion: Lista que indica cuántas unidades se asignan a cada columna.
         ganancia: Ganancia total obtenida para la asignación dada.
         soluciones_factibles: Número de soluciones evaluadas (cuando aplica).
         intentos: Cantidad de nodos o asignaciones generadas.
         tiempo: Tiempo total de ejecución del método.
     """
-    asignado: List[int]
+    distribucion: List[int]
     ganancia: float
     soluciones_factibles: int = 0
     intentos: int = 0
@@ -37,7 +37,7 @@ class DistribucionRecursos:
     - Búsqueda Exhaustiva con Ramificación y Acotamiento
     """
 
-    def __init__(self, tabla, R):
+    def __init__(self, tabla, R, M=None):
         """
         Inicializa el problema.
 
@@ -47,7 +47,7 @@ class DistribucionRecursos:
         """
         self.tabla = tabla
         self.R = R
-        self.M = len(tabla[0])       # Columnas
+        self.M = M if M else len(tabla[0])
         self.maximo = len(tabla) - 1 # Máximo de unidades que se puede dar a una columna
 
     # --------------------------------------------------------------------
@@ -63,12 +63,12 @@ class DistribucionRecursos:
         Returns:
             Instancia de SolucionDistribucion con la asignación y ganancia obtenidas.
         """
-        asignado = [0] * self.M
+        distribucion = [0] * (self.M + 1)
         tiempo = time.time()
 
         # Función que calcula el valor marginal de agregar 1 unidad a la columna j
         def margen(j):
-            u = asignado[j]
+            u = distribucion[j]
             if u >= self.maximo:
                 return -math.inf
             return self.tabla[u + 1][j] - self.tabla[u][j]
@@ -79,14 +79,14 @@ class DistribucionRecursos:
             mejor = max(range(self.M), key=lambda j: margen(j))
             if margen(mejor) == -math.inf:  # No se puede asignar más
                 break
-            asignado[mejor] += 1
+            distribucion[mejor] += 1
 
         # Calcular ganancia total
-        ganancia = sum(self.tabla[asignado[j]][j] for j in range(self.M))
+        ganancia = sum(self.tabla[distribucion[j]][j] for j in range(self.M))
         t = time.time() - tiempo
 
         return SolucionDistribucion(
-            asignado=asignado,
+            distribucion=distribucion,
             ganancia=ganancia,
             tiempo=t
         )
@@ -107,7 +107,7 @@ class DistribucionRecursos:
             La mejor solución encontrada en todo el espacio de búsqueda.
         """
         mejor_valor = -math.inf
-        mejor_asignado = None
+        mejor_distribucion = None
         intentos = 0
         tiempo = time.time()
 
@@ -124,25 +124,25 @@ class DistribucionRecursos:
                         yield (i,) + rest
 
         # Explorar cada composición posible
-        for asignado in compositions(self.R, self.M):
+        for distribucion in compositions(self.R, self.M):
             intentos += 1
 
             # Establece el límite máximo por columna
-            if any(a > self.maximo for a in asignado):
+            if any(a > self.maximo for a in distribucion):
                 continue
 
             # Calcular ganancia
-            valor = sum(self.tabla[asignado[j]][j] for j in range(self.M))
+            valor = sum(self.tabla[distribucion[j]][j] for j in range(self.M))
 
             # Guardar mejor
             if valor > mejor_valor:
                 mejor_valor = valor
-                mejor_asignado = asignado
+                mejor_distribucion = distribucion
 
         t = time.time() - tiempo
 
         return SolucionDistribucion(
-            asignado=list(mejor_asignado),
+            distribucion=[0] + list(mejor_distribucion),
             ganancia=mejor_valor,
             soluciones_factibles=intentos,
             intentos=intentos,
@@ -165,27 +165,26 @@ class DistribucionRecursos:
             Mejor solución obtenida con podas.
         """
         mejor_valor = -math.inf
-        mejor_asignado = None
+        mejor_distribucion = None
         intentos = 0
         tiempo = time.time()
 
         # Cálculo previo: mejor ganancia disponible por columna
-        col_maximo = [
-            max(self.tabla[u][j] for u in range(self.maximo + 1))
-            for j in range(self.M)
-        ]
+        col_maximo = [0] * (self.M + 1)
+        for j in range(1, self.M + 1):
+            col_maximo[j] = max(self.tabla[u][j] for u in range(self.maximo + 1))
 
-        def dfs(j, restante, actual_asignado, suma_actual):
+        def dfs(j, restante, actual_distribucion, suma_actual):
             """
             Función recursiva DFS con poda.
 
             Args:
                 j: Índice de columna actual.
                 restante: Unidades por asignar.
-                actual_asignado: Lista con la asignación parcial.
+                actual_distribucion: Lista con la asignación parcial.
                 suma_actual: Ganancia acumulada.
             """
-            nonlocal mejor_valor, mejor_asignado, intentos
+            nonlocal mejor_valor, mejor_distribucion, intentos
             intentos += 1
 
             # Cota superior optimista: suma_actual + sumatorio de máximos restantes
@@ -196,28 +195,28 @@ class DistribucionRecursos:
                 return
 
             # Si llegamos al final, validar solución
-            if j == self.M:
+            if j > self.M:
                 if restante == 0 and suma_actual > mejor_valor:
                     mejor_valor = suma_actual
-                    mejor_asignado = actual_asignado.copy()
+                    mejor_distribucion = actual_distribucion.copy()
                 return
 
             # Probar todas las asignaciones posibles para esta columna
             for u in range(min(self.maximo, restante), -1, -1):
-                actual_asignado.append(u)
+                actual_distribucion.append(u)
                 dfs(
                     j + 1,
                     restante - u,
-                    actual_asignado,
+                    actual_distribucion,
                     suma_actual + self.tabla[u][j]
                 )
-                actual_asignado.pop()
+                actual_distribucion.pop()
 
-        dfs(0, self.R, [], 0)
+        dfs(1, self.R, [], 0)
         t = time.time() - tiempo
 
         return SolucionDistribucion(
-            asignado=mejor_asignado,
+            distribucion=[0] + mejor_distribucion,
             ganancia=mejor_valor,
             soluciones_factibles=intentos,
             intentos=intentos,
