@@ -7,7 +7,7 @@ Script de demostración para probar los algoritmos sin interfaz interactiva.
 from asign1a1 import ProblemaAsigna1a1
 from mochila import ProblemaMochila
 from vendedor import ProblemaVendedor
-from recursos import DistribucionRecursos
+#from recursos import DistribucionRecursos
 from tiempo import MedidorTiempo
 from rich.console import Console
 from rich.panel import Panel
@@ -96,9 +96,9 @@ def demo_mochila():
     tabla.add_column("Beneficio", style="green")
     tabla.add_column("B/P", style="magenta")
     
-    for i in range(len(peso)):
+    for i in range(1, len(peso)):
         tabla.add_row(
-            str(i + 1),
+            str(i),
             str(peso[i]),
             str(beneficio[i]),
             f"{beneficio[i]/peso[i]:.2f}"
