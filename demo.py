@@ -7,7 +7,7 @@ Script de demostración para probar los algoritmos sin interfaz interactiva.
 from asign1a1 import ProblemaAsigna1a1
 from mochila import ProblemaMochila
 from vendedor import ProblemaVendedor
-#from recursos import DistribucionRecursos
+from recursos import DistribucionRecursos
 from tiempo import MedidorTiempo
 from rich.console import Console
 from rich.panel import Panel
