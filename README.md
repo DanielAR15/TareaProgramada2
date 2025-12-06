@@ -45,15 +45,24 @@ python vendedor.py
  A. Menú de problemas: seleccion de uno de los problemas a elegir.
 
   A.1 Menú de Métodos de Búsqueda
+  
       1. Búsqueda Greedy
+      
       2. Búsqueda Exhaustiva Pura
+      
       3. Búsqueda Exhaustiva con Ramificación y Acotamiento
+      
       4. Regresar
 
 (Cada método presenta)
+
     1. La solución encontrada
+    
     2. Ganancia o costo total
+    
     3. Número de soluciones evaluadas
+    
     4. Tiempo total de ejecución
+    
     5. Distribuciones o caminos generados
 
