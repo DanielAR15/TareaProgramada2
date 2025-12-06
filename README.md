@@ -1,21 +1,26 @@
-#Proyecto: Resolución de Problemas mediante Técnicas de Búsqueda
+# Proyecto - Análisis de algoritmos
+### Resolución de Problemas mediante algoritmos de búsqueda
+
+Noelia Ramírez Rodriguez - C36453
+
+Daniel 
+- - -
 
 Este proyecto implementa cuatro problemas clásicos que pueden resolverse mediante técnicas algorítmicas de búsqueda:
 
-- Problema de Asignación 1 a 1
-- Problema de Distribución de un Recurso
-- Problema de la Mochila 0-1
--Problema del Viajero (TSP)
+    - Problema de Asignación 1 a 1
+    - Problema de Distribución de un Recurso
+    - Problema de la Mochila 0-1
+    - Problema del Viajero (TSP)
 
 Cada problema cuenta con una estructura orientada a objetos e implementa tres métodos de búsqueda:
 
-- Búsqueda Greedy
-- Búsqueda Exhaustiva Pura
-- Búsqueda Exhaustiva con Ramificación y Acotamiento (Branch & Bound)
+    - Búsqueda Greedy
+    - Búsqueda Exhaustiva Pura
+    - Búsqueda Exhaustiva con Ramificación y Acotamiento (Branch & Bound)
 
 El sistema integra un menú interactivo en consola basado en la librería Rich, que facilita la navegación y experimentación con los algoritmos.
 
----
 ## Requisitos
 
 -Python 3.10 o superior
@@ -24,7 +29,7 @@ El sistema integra un menú interactivo en consola basado en la librería Rich, 
 ---
 ## Instalación de dependencias
 
-pip install rich
+    pip install rich
 
 ---
 ## Estructura del proyecto
@@ -33,11 +38,13 @@ pip install rich
 
 ---
 ## ejecucion del programa
+    Puedes probar el programa de manera interactiva ejecutando:
 
-python asign1a1.py
-python recursos.py
-python mochila.py
-python vendedor.py
+     - python prueba.py
+    
+    Si deseas probar todos, hay un file llamado demo que tiene casos escritos para verificar que todo funcione correctamente, si deseas ejecutar ese el comando sería:
+
+    - python demo.py
 
 ---
 ## Menu Principal
@@ -54,7 +61,7 @@ python vendedor.py
       
       4. Regresar
 
-(Cada método presenta)
+Cada método presenta:
 
     1. La solución encontrada
     
