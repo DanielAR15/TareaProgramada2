@@ -3,7 +3,7 @@
 
 Noelia Ramírez Rodriguez - C36453
 
-Daniel 
+Daniel Avilan Rios - C10793 
 - - -
 
 Este proyecto implementa cuatro problemas clásicos que pueden resolverse mediante técnicas algorítmicas de búsqueda:
@@ -11,7 +11,7 @@ Este proyecto implementa cuatro problemas clásicos que pueden resolverse median
     - Problema de Asignación 1 a 1
     - Problema de Distribución de un Recurso
     - Problema de la Mochila 0-1
-    - Problema del Viajero (TSP)
+    - Problema del Vendedor (TSP)
 
 Cada problema cuenta con una estructura orientada a objetos e implementa tres métodos de búsqueda:
 
